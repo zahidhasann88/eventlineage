@@ -1,0 +1,9 @@
+{
+  "type": "record",
+  "name": "PaymentCaptured",
+  "namespace": "sample.payments",
+  "fields": [
+    { "name": "payment_id", "type": "string" },
+    { "name": "amount_cents", "type": "long" }
+  ]
+}

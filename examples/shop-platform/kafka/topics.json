@@ -1,0 +1,11 @@
+{
+  "cluster": "shop-prod",
+  "broker": "kafka",
+  "topics": [
+    { "name": "orders.v1", "partitions": 12, "replication_factor": 3, "config": { "retention.ms": "604800000", "cleanup.policy": "delete" } },
+    { "name": "payments.v1", "partitions": 6, "replication_factor": 3 },
+    { "name": "inventory.v1", "partitions": 6, "replication_factor": 3 },
+    { "name": "shipments.v1", "partitions": 3, "replication_factor": 3 },
+    { "name": "orders.dlq", "partitions": 1, "replication_factor": 3, "description": "Dead letter queue for order consumers" }
+  ]
+}

@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+package shop.inventory;
+
+option java_package = "com.shop.inventory.events";
+
+// Emitted when stock has been reserved for an order.
+// @event
+message InventoryReservedEvent {
+  string reservation_id = 1;
+  string order_id = 2;
+  repeated ReservedLine lines = 3;
+  int64 reserved_at_epoch_ms = 4;
+  Warehouse warehouse = 5;
+
+  message ReservedLine {
+    string sku = 1;
+    int32 quantity = 2;
+    string location = 3;
+  }
+
+  enum Warehouse {
+    WAREHOUSE_UNSPECIFIED = 0;
+    WAREHOUSE_DHAKA = 1;
+    WAREHOUSE_SINGAPORE = 2;
+  }
+}
+
+// Emitted when stock could not be reserved and the order must be cancelled.
+message InventoryRejectedEvent {
+  string order_id = 1;
+  string reason = 2;
+  repeated string missing_skus = 3;
+}
+
+message InternalMetrics {
+  int64 counter = 1;
+}
+
+// The gRPC service publishes reservations and consumes order events, which is
+// how EventLineage infers producer/consumer relationships from .proto files.
+service InventoryService {
+  rpc Reserve (ReserveRequest) returns (InventoryReservedEvent);
+  rpc HandleOrder (OrderCreatedEnvelope) returns (ReserveResponse);
+}
+
+message ReserveRequest {
+  string order_id = 1;
+}
+
+message ReserveResponse {
+  bool ok = 1;
+}
+
+message OrderCreatedEnvelope {
+  string order_id = 1;
+}

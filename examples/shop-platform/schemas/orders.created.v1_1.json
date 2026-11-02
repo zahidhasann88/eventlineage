@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://shop.example/schemas/orders.created.v1_1.json",
+  "title": "orders.created",
+  "type": "object",
+  "properties": {
+    "order_id": { "type": "string", "minLength": 1 },
+    "customer_id": { "type": "string" },
+    "total_cents": { "type": "integer", "minimum": 0 },
+    "currency": { "type": "string" },
+    "created_at": { "type": "string", "format": "date-time" },
+    "channel": { "type": "string", "enum": ["web", "mobile", "store"] }
+  },
+  "required": ["order_id", "customer_id", "total_cents", "currency", "created_at"],
+  "additionalProperties": false
+}

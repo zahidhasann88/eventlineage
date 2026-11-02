@@ -1,0 +1,48 @@
+version: 1
+services:
+  order-service:
+    tier: tier-1
+    produces: [order.created, order.cancelled]
+    consumes: [payment.captured]
+  payment-service:
+    tier: tier-1
+    produces: [payment.captured]
+    consumes: [order.created]
+  shipping-service:
+    consumes: [order.created]
+
+events:
+  - name: order.created
+    version: 2.0.0
+    description: A customer placed an order.
+    topics: [orders.v1]
+    schema:
+      format: json-schema
+      file: ../schemas/order.created.v2.json
+    versions:
+      - version: 1.0.0
+        schema:
+          format: json-schema
+          file: ../schemas/order.created.v1.json
+      - version: 2.0.0
+        schema:
+          format: json-schema
+          file: ../schemas/order.created.v2.json
+
+  - name: order.cancelled
+    version: 1.0.0
+    topics: [orders.v1]
+    schema:
+      format: avro
+      file: ../schemas/order.cancelled.avsc
+
+  - name: payment.captured
+    version: 1.0.0
+    topics: [payments.v1]
+    schema:
+      format: avro
+      file: ../schemas/payment.captured.avsc
+
+  - name: audit.written
+    version: 1.0.0
+    description: Written by an external audit appliance.

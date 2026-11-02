@@ -1,0 +1,42 @@
+# EventLineage configuration for the example "shop platform".
+# Run:  eventlineage scan && eventlineage validate && eventlineage analyze
+version: 1
+
+project:
+  name: shop-platform
+  root: .
+
+discovery:
+  roots:
+    - .
+  exclude:
+    - "**/.eventlineage/**"
+  protobuf:
+    event_suffixes: [Event]
+    use_annotations: true
+    include_services: true
+
+validation:
+  fail_on: error
+  severity:
+    EG002: info
+    EG012: off
+  suppress:
+    - rule: EG011
+      subject: legacy.audit.written
+      reason: payload is an opaque vendor blob documented in Confluence, not in the repo
+
+compatibility:
+  mode: backward
+  fail_on_breaking: true
+
+analysis:
+  infer_relationships: true
+  include_topics: true
+
+cache:
+  enabled: true
+  directory: .eventlineage/cache
+
+report:
+  include_diagrams: true

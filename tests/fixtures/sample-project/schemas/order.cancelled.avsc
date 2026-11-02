@@ -1,0 +1,9 @@
+{
+  "type": "record",
+  "name": "OrderCancelled",
+  "namespace": "sample.orders",
+  "fields": [
+    { "name": "order_id", "type": "string" },
+    { "name": "reason", "type": ["null", "string"], "default": null }
+  ]
+}

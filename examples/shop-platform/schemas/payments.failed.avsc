@@ -1,0 +1,12 @@
+{
+  "type": "record",
+  "name": "PaymentFailed",
+  "namespace": "shop.payments",
+  "fields": [
+    { "name": "payment_id", "type": "string" },
+    { "name": "order_id", "type": "string" },
+    { "name": "reason", "type": { "type": "enum", "name": "Failure", "symbols": ["DECLINED", "INSUFFICIENT_FUNDS", "TIMEOUT"] } },
+    { "name": "retryable", "type": "boolean", "default": false },
+    { "name": "failed_at", "type": { "type": "long", "logicalType": "timestamp-millis" } }
+  ]
+}

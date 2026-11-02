@@ -1,0 +1,17 @@
+{
+  "subjects": [
+    {
+      "subject": "orders.created-value",
+      "versions": [
+        { "version": 1, "id": 101, "schemaType": "JSON", "schema": "{\"$schema\":\"https://json-schema.org/draft/2020-12/schema\",\"title\":\"orders.created\",\"type\":\"object\",\"properties\":{\"order_id\":{\"type\":\"string\"}},\"required\":[\"order_id\"]}" },
+        { "version": 2, "id": 118, "schemaType": "JSON", "schema": "{\"$schema\":\"https://json-schema.org/draft/2020-12/schema\",\"title\":\"orders.created\",\"type\":\"object\",\"properties\":{\"order_id\":{\"type\":\"string\"},\"channel\":{\"type\":\"string\"}},\"required\":[\"order_id\"]}" }
+      ]
+    },
+    {
+      "subject": "shipment.dispatched-value",
+      "versions": [
+        { "version": 1, "id": 77, "schemaType": "AVRO", "schema": "{\"type\":\"record\",\"name\":\"ShipmentDispatched\",\"namespace\":\"shop.shipments\",\"fields\":[{\"name\":\"shipment_id\",\"type\":\"string\"},{\"name\":\"order_id\",\"type\":\"string\"},{\"name\":\"carrier\",\"type\":\"string\"}]}" }
+      ]
+    }
+  ]
+}

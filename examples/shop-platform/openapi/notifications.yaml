@@ -1,0 +1,46 @@
+openapi: 3.1.0
+info:
+  title: Notification Service
+  version: 2.0.0
+  description: Sends customer notifications; receives provider webhooks.
+x-service-name: notification-service
+x-namespace: shop.notifications
+
+paths:
+  /preferences:
+    get:
+      operationId: getPreferences
+      responses:
+        "200":
+          description: preferences
+
+x-events:
+  - name: shipment.dispatched
+    version: 1.0.0
+    description: A parcel left the warehouse.
+    topics: [shipments.v1]
+    producers: [shipment-service]
+    schema:
+      type: object
+      properties:
+        shipment_id: { type: string }
+        order_id: { type: string }
+        carrier: { type: string, enum: [dhl, fedex, local] }
+      required: [shipment_id, order_id, carrier]
+
+webhooks:
+  notification-delivered:
+    post:
+      summary: Delivery receipt from the messaging provider.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message_id: { type: string }
+                status: { type: string, enum: [delivered, bounced] }
+              required: [message_id, status]
+      responses:
+        "204":
+          description: accepted

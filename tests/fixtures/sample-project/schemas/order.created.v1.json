@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "order.created",
+  "type": "object",
+  "properties": {
+    "order_id": { "type": "string" },
+    "total": { "type": "integer" }
+  },
+  "required": ["order_id", "total"]
+}

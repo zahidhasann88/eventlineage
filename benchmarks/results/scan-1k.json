@@ -1,0 +1,66 @@
+{
+  "cache": {
+    "entries": 20,
+    "hits": 0,
+    "misses": 20,
+    "size_bytes": 823598
+  },
+  "environment": {
+    "cpu_count": 8,
+    "eventlineage": "0.1.0",
+    "implementation": "CPython",
+    "platform": "Windows-10-10.0.19045-SP0",
+    "processor": "Intel64 Family 6 Model 142 Stepping 12, GenuineIntel",
+    "python": "3.13.14"
+  },
+  "project": {
+    "events": 1000,
+    "files": 20,
+    "relationships": 12037,
+    "root": "<temporary directory>",
+    "services": 83,
+    "topics": 10
+  },
+  "timings": {
+    "analyze": {
+      "max_ms": 203.461,
+      "mean_ms": 184.095,
+      "median_ms": 176.122,
+      "min_ms": 170.357,
+      "p95_ms": 203.461,
+      "runs": 5
+    },
+    "cold_scan": {
+      "max_ms": 453.32,
+      "mean_ms": 370.107,
+      "median_ms": 331.508,
+      "min_ms": 311.96,
+      "p95_ms": 453.32,
+      "runs": 5
+    },
+    "graph_build": {
+      "max_ms": 67.16,
+      "mean_ms": 60.314,
+      "median_ms": 60.481,
+      "min_ms": 56.448,
+      "p95_ms": 67.16,
+      "runs": 5
+    },
+    "validate": {
+      "max_ms": 309.952,
+      "mean_ms": 269.756,
+      "median_ms": 267.591,
+      "min_ms": 234.401,
+      "p95_ms": 309.952,
+      "runs": 5
+    },
+    "warm_incremental_scan": {
+      "max_ms": 247.05,
+      "mean_ms": 217.857,
+      "median_ms": 209.927,
+      "min_ms": 198.667,
+      "p95_ms": 247.05,
+      "runs": 5
+    }
+  }
+}

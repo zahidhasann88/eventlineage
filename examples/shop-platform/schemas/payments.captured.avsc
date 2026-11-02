@@ -1,0 +1,15 @@
+{
+  "type": "record",
+  "name": "PaymentCaptured",
+  "namespace": "shop.payments",
+  "doc": "Emitted once the payment provider confirms the capture.",
+  "fields": [
+    { "name": "payment_id", "type": "string" },
+    { "name": "order_id", "type": "string" },
+    { "name": "amount_cents", "type": "long" },
+    { "name": "currency", "type": "string" },
+    { "name": "captured_at", "type": { "type": "long", "logicalType": "timestamp-millis" } },
+    { "name": "provider", "type": { "type": "enum", "name": "Provider", "symbols": ["STRIPE", "ADYEN", "BRAINTREE"] } },
+    { "name": "metadata", "type": { "type": "map", "values": "string" }, "default": {} }
+  ]
+}

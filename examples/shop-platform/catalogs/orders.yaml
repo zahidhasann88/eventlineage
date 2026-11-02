@@ -1,0 +1,157 @@
+version: 1
+# Hand-maintained catalog for the order domain: the source of truth for
+# ownership, routing and the version history of each contract.
+services:
+  order-service:
+    kind: service
+    tier: tier-1
+    language: kotlin
+    owners: [team-orders]
+    produces: [orders.created, orders.cancelled]
+    consumes: [payments.captured, inventory.reserved]
+  billing-service:
+    tier: tier-1
+    language: go
+    owners: [team-billing]
+    produces: [payments.captured, payments.failed]
+    consumes: [orders.created]
+  inventory-service:
+    tier: tier-1
+    language: rust
+    owners: [team-supply]
+    produces: [inventory.reserved, inventory.rejected]
+    consumes: [orders.created]
+  notification-service:
+    tier: tier-3
+    language: python
+    owners: [team-growth]
+    consumes: [orders.created, payments.captured, payments.failed, shipment.dispatched]
+
+topics:
+  - name: orders.v1
+    broker: kafka
+    partitions: 12
+    replication_factor: 3
+    config:
+      retention.ms: "604800000"
+      cleanup.policy: delete
+  - name: payments.v1
+    broker: kafka
+    partitions: 6
+    replication_factor: 3
+  - name: inventory.v1
+    broker: kafka
+    partitions: 6
+    replication_factor: 3
+
+events:
+  - name: orders.created
+    version: 1.2.0
+    description: An order was accepted and is ready for downstream processing.
+    owners: [team-orders]
+    tags: [core, revenue]
+    topics: [orders.v1]
+    schema:
+      format: json-schema
+      file: ../schemas/orders.created.v1_2.json
+    versions:
+      - version: 1.0.0
+        released_at: 2024-02-11
+        schema:
+          format: json-schema
+          file: ../schemas/orders.created.v1.json
+      - version: 1.1.0
+        released_at: 2024-08-03
+        notes: added `channel` (optional)
+        schema:
+          format: json-schema
+          file: ../schemas/orders.created.v1_1.json
+      - version: 1.2.0
+        released_at: 2025-01-20
+        notes: added `loyalty_tier` (optional) and tightened `currency` to an enum
+        schema:
+          format: json-schema
+          file: ../schemas/orders.created.v1_2.json
+    producers:
+      - service: order-service
+        schema_version: 1.2.0
+    consumers:
+      - service: billing-service
+        schema_version: 1.2.0
+      - service: inventory-service
+        schema_version: 1.2.0
+      - service: notification-service
+        schema_version: 1.1.0
+      - service: search-indexer
+        kind: external
+        schema_version: 1.0.0
+
+  - name: orders.cancelled
+    version: 1.0.0
+    description: An order was cancelled by the customer or by the platform.
+    owners: [team-orders]
+    topics: [orders.v1]
+    schema:
+      format: json-schema
+      file: ../schemas/orders.cancelled.v1.json
+
+  - name: payments.captured
+    version: 1.0.0
+    owners: [team-billing]
+    tags: [revenue]
+    topics: [payments.v1]
+    schema:
+      format: avro
+      file: ../schemas/payments.captured.avsc
+
+  - name: payments.failed
+    version: 1.0.0
+    owners: [team-billing]
+    topics: [payments.v1]
+    schema:
+      format: avro
+      file: ../schemas/payments.failed.avsc
+
+  - name: inventory.reserved
+    version: 2.1.0
+    owners: [team-supply]
+    topics: [inventory.v1]
+    schema:
+      format: protobuf
+      file: ../proto/inventory.proto
+      message: shop.inventory.InventoryReservedEvent
+    versions:
+      - version: 2.0.0
+        schema:
+          format: protobuf
+          file: ../proto/inventory.proto
+          message: shop.inventory.InventoryReservedEvent
+      - version: 2.1.0
+        schema:
+          format: protobuf
+          file: ../proto/inventory.proto
+          message: shop.inventory.InventoryReservedEvent
+
+  - name: inventory.rejected
+    version: 2.1.0
+    owners: [team-supply]
+    topics: [inventory.v1]
+    schema:
+      format: protobuf
+      file: ../proto/inventory.proto
+      message: shop.inventory.InventoryRejectedEvent
+
+  # Intentionally legacy: no producer in this repository, and an opaque payload.
+  - name: legacy.audit.written
+    version: 1.0.0
+    description: Audit record written by a vendor system that runs outside this repo.
+    owners: [team-platform]
+    consumers:
+      - service: compliance-export
+        kind: external
+
+relationships:
+  - from: payments.failed
+    to: orders.cancelled
+    kind: triggers
+    description: A failed payment releases the order and cancels it.

@@ -1,0 +1,118 @@
+{
+  "environment": {
+    "cpu_count": 8,
+    "eventlineage": "0.1.0",
+    "implementation": "CPython",
+    "platform": "Windows-10-10.0.19045-SP0",
+    "processor": "Intel64 Family 6 Model 142 Stepping 12, GenuineIntel",
+    "python": "3.13.14"
+  },
+  "networkx_available": true,
+  "timings": {
+    "analyze_catalog": {
+      "max_ms": 51.656,
+      "mean_ms": 50.225,
+      "median_ms": 50.225,
+      "min_ms": 48.794,
+      "p95_ms": 51.656,
+      "runs": 2
+    },
+    "bfs": {
+      "max_ms": 1.185,
+      "mean_ms": 1.058,
+      "median_ms": 1.044,
+      "min_ms": 0.971,
+      "p95_ms": 1.185,
+      "runs": 5
+    },
+    "build_graph": {
+      "max_ms": 19.257,
+      "mean_ms": 15.658,
+      "median_ms": 15.128,
+      "min_ms": 13.941,
+      "p95_ms": 19.257,
+      "runs": 5
+    },
+    "cycle_groups": {
+      "max_ms": 2.426,
+      "mean_ms": 2.242,
+      "median_ms": 2.223,
+      "min_ms": 2.021,
+      "p95_ms": 2.426,
+      "runs": 5
+    },
+    "degree_centrality": {
+      "max_ms": 0.297,
+      "mean_ms": 0.266,
+      "median_ms": 0.256,
+      "min_ms": 0.253,
+      "p95_ms": 0.297,
+      "runs": 5
+    },
+    "dfs": {
+      "max_ms": 1.245,
+      "mean_ms": 1.225,
+      "median_ms": 1.224,
+      "min_ms": 1.21,
+      "p95_ms": 1.245,
+      "runs": 5
+    },
+    "networkx_bfs": {
+      "max_ms": 25.714,
+      "mean_ms": 6.694,
+      "median_ms": 1.99,
+      "min_ms": 1.809,
+      "p95_ms": 25.714,
+      "runs": 5
+    },
+    "networkx_build": {
+      "max_ms": 4.952,
+      "mean_ms": 4.232,
+      "median_ms": 4.091,
+      "min_ms": 3.628,
+      "p95_ms": 4.952,
+      "runs": 5
+    },
+    "networkx_strongly_connected": {
+      "max_ms": 1.186,
+      "mean_ms": 1.048,
+      "median_ms": 0.992,
+      "min_ms": 0.969,
+      "p95_ms": 1.186,
+      "runs": 5
+    },
+    "service_flow_graph": {
+      "max_ms": 3.909,
+      "mean_ms": 3.694,
+      "median_ms": 3.646,
+      "min_ms": 3.616,
+      "p95_ms": 3.909,
+      "runs": 5
+    },
+    "strongly_connected_components": {
+      "max_ms": 3.001,
+      "mean_ms": 2.324,
+      "median_ms": 2.059,
+      "min_ms": 1.849,
+      "p95_ms": 3.001,
+      "runs": 5
+    },
+    "topological_sort": {
+      "max_ms": 0.516,
+      "mean_ms": 0.311,
+      "median_ms": 0.291,
+      "min_ms": 0.211,
+      "p95_ms": 0.516,
+      "runs": 5
+    }
+  },
+  "topology": {
+    "events": 1000,
+    "graph_edges": 4300,
+    "graph_memory_bytes": 500416,
+    "graph_nodes": 1150,
+    "networkx_pickle_bytes": 75113,
+    "services": 50,
+    "topics": 100
+  }
+}

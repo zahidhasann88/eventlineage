@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "orders.cancelled",
+  "type": "object",
+  "properties": {
+    "order_id": { "type": "string" },
+    "reason": { "type": "string", "enum": ["customer", "payment_failed", "fraud", "out_of_stock"] },
+    "cancelled_at": { "type": "string", "format": "date-time" }
+  },
+  "required": ["order_id", "reason", "cancelled_at"]
+}
